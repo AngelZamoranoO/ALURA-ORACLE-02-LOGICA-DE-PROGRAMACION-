@@ -4,6 +4,8 @@
 // vamos a agregar una funcion desde onclick edesde el html
 let numeroSecreto;
 let intentos;
+let listaNumerosSorteados =[]; // se define la variable de tipo lista
+let numeroMaximo = 10;
 function asignarTextoElemento(elemento , texto) {
     let elementoHTML = document.querySelector(elemento); // selecciono el h1 
     elementoHTML.innerHTML = texto; // cambio el texto del tag h1 para que pueda visualizar
@@ -17,7 +19,23 @@ function intentoDeusuario(){// la funcion esta siendo llamada desde html
 console.log(numeroSecreto);
 
 function generarNumeroSecreto() { // se genera la funcion de numero aleatorio
-     return Math.floor(Math.random() * 10) + 1;
+     let numeroGenerado = Math.floor(Math.random() * numeroMaximo) + 1;
+     console.log(numeroGenerado);
+     console.log(listaNumerosSorteados);
+
+     // se debe decir que si el numero generado esta en la lista si no puedo jugar
+     if(listaNumerosSorteados.length == numeroMaximo){
+        return asignarTextoElemento('p','Ya se sortearon todos los numeros');
+     }
+     if(listaNumerosSorteados.includes(numeroGenerado)){
+        // se debe generar la recursividad para que se llame a si misma
+        return generarNumeroSecreto();
+
+     } else {
+        listaNumerosSorteados.push(numeroGenerado);
+        return numeroGenerado;
+     }
+
 }
 
 function verificarIntento() {
@@ -49,7 +67,7 @@ function limpiarCaja(){ // se crae la funcion para limpiar la caja para podamos 
 
 function condicionesIniciales(){
     asignarTextoElemento('h1','Juego del numero secreto!')
-    asignarTextoElemento('p', 'Indica un numero del 1 al 10')
+    asignarTextoElemento('p', `Indica un numero del 1 al ${numeroMaximo}`)
     numeroSecreto = generarNumeroSecreto(); // una variable que almacena el numero secreto
     intentos = 1;
 }
